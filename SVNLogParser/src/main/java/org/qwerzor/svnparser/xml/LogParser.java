@@ -8,6 +8,7 @@ import org.qwerzor.svnparser.model.LogEntry;
 import org.qwerzor.svnparser.model.Path;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
@@ -64,13 +65,33 @@ public class LogParser {
 		// Retrieve date
 		String date = getTextValue(element, DATE_ID);
 		try {
-			date.replace("T", null);
-			date.replace("Z", null);
-			System.out.println(date);
-			//entry.setDate(new Date(Date.parse(date)));
-		} catch(Exception e) {
-			throw new ParsingException(date + " is not a valid date");
+			// Format date
+			date = date.replace("Z", "");
+			date = date.replace("T", ":");
+			date = date.replace("-", ":");
+			
+			// Split date
+			String[] dt = date.split(":");
+			if(dt.length != 6) { 
+				throw new ParsingException(date + " is not a valid date");
+			}
+			
+			// Store date
+			entry.setDate(new Date(
+					Integer.parseInt(dt[0]), Integer.parseInt(dt[1]) - 1, 
+					Integer.parseInt(dt[2]), Integer.parseInt(dt[3]), 
+					Integer.parseInt(dt[4]), (int) Double.parseDouble(dt[5])
+				));
+		} catch(NumberFormatException e) {
+			throw new ParsingException(date + " is not a valid date", e);
 		}
+		
+		// TODO: Retrieve paths
+		
+		
+		// Retrieve message
+		String message = getTextValue(element, MESSAGE_ID);
+		entry.setMessage(message);
 		
 		return entry;
 	}
@@ -83,8 +104,20 @@ public class LogParser {
 		return path;
 	}
 	
-	public static String getTextValue(Element element, String identifier) {
-		return element.getElementsByTagName(identifier).item(0).getNodeValue();
+	/**
+	 * Retrieve text value of sub element.
+	 * @param parent Parent element
+	 * @param identifier Identifier
+	 * @return Value of sub element
+	 */
+	public static String getTextValue(Element parent, String identifier) {
+		try {
+			Node element = parent.getElementsByTagName(identifier).item(0);
+			Node value = element.getChildNodes().item(0);
+			return value.getNodeValue();
+		} catch(NullPointerException e) {
+			return "";
+		}
 	}
 	
 }
