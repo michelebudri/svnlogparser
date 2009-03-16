@@ -3,25 +3,29 @@ package org.qwerzor.svnparser.model;
 import org.hibernate.mapping.List;
 
 /**
+ * Log structure, which contains 0..* entries
  * 
  * @author jeroenvs
- *
+ * @date 16-03-2009
  */
 public class Log {
 
+	/**
+	 * Log entries.
+	 */
 	private List entries;
 
 	/**
-	 * 
-	 * @return
+	 * Retrieve entries.
+	 * @return Entries
 	 */
 	public List getEntries() {
 		return entries;
 	}
 
 	/**
-	 * 
-	 * @param entries
+	 * Change entries.
+	 * @param entries Entries collection
 	 */
 	public void setEntries(List entries) {
 		this.entries = entries;
