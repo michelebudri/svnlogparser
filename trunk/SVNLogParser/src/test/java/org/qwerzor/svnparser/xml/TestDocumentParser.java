@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -14,6 +15,10 @@ public class TestDocumentParser extends TestCase {
 
 	public static final String TEST_LOG = "data/test/svn.log";
 	
+	/**
+	 * Test method for {@link org.qwerzor.svnparser.xml.DocumentParser#parseDocument(String)}.
+	 */
+	@Test
 	public void testParseDocument() {
 		try {
 			Document document = DocumentParser.parseDocument(TEST_LOG);
