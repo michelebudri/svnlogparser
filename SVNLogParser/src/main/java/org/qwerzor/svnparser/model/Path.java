@@ -46,16 +46,16 @@ public class Path {
 	}
 	
 	/**
-	 * Retrieve path uri.
-	 * @return
+	 * Retrieve path URI.
+	 * @return URI
 	 */
 	public String getUri() {
 		return uri;
 	}
 	
 	/**
-	 * Change path uri.
-	 * @param uri
+	 * Change path URI.
+	 * @param URI Location of file
 	 */
 	public void setUri(String uri) {
 		this.uri = uri;
